@@ -21,14 +21,23 @@ namespace cs425
         {
             bool choice = true;
 
+            DataTable table = new DataTable("Cars");
+
+            foreach(DataRow data in table.Rows)
+            {
+                foreach(var item in data.ItemArray)
+                {
+                    Console.WriteLine(item);
+                }
+            }
+           
+
             while (choice == true)
             {
                 Console.WriteLine("Enter in desired SQL Command:");
                 var input = "";
 
                 input = Console.ReadLine(); //read user's input (assuming SQL syntax is correct)
-
-                //test you bitch //
 
                 string con_string = @"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = C:\Users\Petros\Documents\visual studio 2017\Projects\cs425\cs425\Database1.mdf; Integrated Security = True;";
 
@@ -75,10 +84,46 @@ namespace cs425
                 int counter = r.FieldCount; // set counter to the queried results 
                 for (int i = 0; i < counter; i++)
                 {
+                   // Console.WriteLine("|");
                     Console.WriteLine(r.GetValue(i)); // print out queried results 
+                    Console.WriteLine("-----------------------------------------------");
                 }
             }
 
+        }
+
+        int tableWidth = 77;
+
+        void PrintLine()
+        {
+            Console.WriteLine(new string('-', tableWidth));
+        }
+
+        void PrintRow(params string[] columns)
+        {
+            int width = (tableWidth - columns.Length) / columns.Length;
+            string row = "|";
+
+            foreach (string column in columns)
+            {
+                row += AlignCentre(column, width) + "|";
+            }
+
+            Console.WriteLine(row);
+        }
+
+        string AlignCentre(string text, int width)
+        {
+            text = text.Length > width ? text.Substring(0, width - 3) + "..." : text;
+
+            if (string.IsNullOrEmpty(text))
+            {
+                return new string(' ', width);
+            }
+            else
+            {
+                return text.PadRight(width - (width - text.Length) / 2).PadLeft(width);
+            }
         }
     }
 }
