@@ -28,7 +28,7 @@ namespace cs425
 
                 input = Console.ReadLine(); //read user's input (assuming SQL syntax is correct)
 
-                //test you bitch 
+                //test you bitch //
 
                 string con_string = @"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = C:\Users\Petros\Documents\visual studio 2017\Projects\cs425\cs425\Database1.mdf; Integrated Security = True;";
 
