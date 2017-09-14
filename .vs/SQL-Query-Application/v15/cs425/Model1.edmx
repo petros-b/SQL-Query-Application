@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Database1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CARS">
+          <Key>
+            <PropertyRef Name="VIN" />
+          </Key>
+          <Property Name="VIN" Type="bigint" Nullable="false" />
+          <Property Name="Make" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="model" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="yr" Type="int" Nullable="false" />
+          <Property Name="car_type" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customers">
+          <Key>
+            <PropertyRef Name="license_num" />
+          </Key>
+          <Property Name="license_num" Type="bigint" Nullable="false" />
+          <Property Name="first_name" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="last_name" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Owner_addr" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="car_type" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\USERS\PETROS\DOCUMENTS\VISUAL STUDIO 2017\PROJECTS\CS425\CS425\DATABASE1.MDF.dbo.Rentals' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Rentals">
+          <Key>
+            <PropertyRef Name="VIN" />
+            <PropertyRef Name="License_num" />
+            <PropertyRef Name="day_of_rental" />
+            <PropertyRef Name="rented_days" />
+          </Key>
+          <Property Name="VIN" Type="bigint" Nullable="false" />
+          <Property Name="License_num" Type="bigint" Nullable="false" />
+          <Property Name="day_of_rental" Type="date" Nullable="false" />
+          <Property Name="rented_days" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Rentals__License__276EDEB3">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+          <End Role="Rentals" Type="Self.Rentals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="license_num" />
+            </Principal>
+            <Dependent Role="Rentals">
+              <PropertyRef Name="License_num" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rentals__VIN__267ABA7A">
+          <End Role="CARS" Type="Self.CARS" Multiplicity="1" />
+          <End Role="Rentals" Type="Self.Rentals" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CARS">
+              <PropertyRef Name="VIN" />
+            </Principal>
+            <Dependent Role="Rentals">
+              <PropertyRef Name="VIN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Database1ModelStoreContainer">
+          <EntitySet Name="CARS" EntityType="Self.CARS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rentals" EntityType="Self.Rentals" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Rentals].[VIN] AS [VIN], 
+    [Rentals].[License_num] AS [License_num], 
+    [Rentals].[day_of_rental] AS [day_of_rental], 
+    [Rentals].[rented_days] AS [rented_days]
+    FROM [dbo].[Rentals] AS [Rentals]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__Rentals__License__276EDEB3" Association="Self.FK__Rentals__License__276EDEB3">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Rentals" EntitySet="Rentals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rentals__VIN__267ABA7A" Association="Self.FK__Rentals__VIN__267ABA7A">
+            <End Role="CARS" EntitySet="CARS" />
+            <End Role="Rentals" EntitySet="Rentals" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Database1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CAR">
+          <Key>
+            <PropertyRef Name="VIN" />
+          </Key>
+          <Property Name="VIN" Type="Int64" Nullable="false" />
+          <Property Name="Make" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="model" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="yr" Type="Int32" Nullable="false" />
+          <Property Name="car_type" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Rentals" Relationship="Self.FK__Rentals__VIN__267ABA7A" FromRole="CARS" ToRole="Rentals" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="license_num" />
+          </Key>
+          <Property Name="license_num" Type="Int64" Nullable="false" />
+          <Property Name="first_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="last_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Owner_addr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="car_type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Rentals" Relationship="Self.FK__Rentals__License__276EDEB3" FromRole="Customers" ToRole="Rentals" />
+        </EntityType>
+        <EntityType Name="Rental">
+          <Key>
+            <PropertyRef Name="VIN" />
+            <PropertyRef Name="License_num" />
+            <PropertyRef Name="day_of_rental" />
+            <PropertyRef Name="rented_days" />
+          </Key>
+          <Property Name="VIN" Type="Int64" Nullable="false" />
+          <Property Name="License_num" Type="Int64" Nullable="false" />
+          <Property Name="day_of_rental" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="rented_days" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CAR" Relationship="Self.FK__Rentals__VIN__267ABA7A" FromRole="Rentals" ToRole="CARS" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK__Rentals__License__276EDEB3" FromRole="Rentals" ToRole="Customers" />
+        </EntityType>
+        <Association Name="FK__Rentals__VIN__267ABA7A">
+          <End Role="CARS" Type="Self.CAR" Multiplicity="1" />
+          <End Role="Rentals" Type="Self.Rental" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CARS">
+              <PropertyRef Name="VIN" />
+            </Principal>
+            <Dependent Role="Rentals">
+              <PropertyRef Name="VIN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rentals__License__276EDEB3">
+          <End Role="Customers" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Rentals" Type="Self.Rental" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="license_num" />
+            </Principal>
+            <Dependent Role="Rentals">
+              <PropertyRef Name="License_num" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Database1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CARS" EntityType="Self.CAR" />
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="Rentals" EntityType="Self.Rental" />
+          <AssociationSet Name="FK__Rentals__VIN__267ABA7A" Association="Self.FK__Rentals__VIN__267ABA7A">
+            <End Role="CARS" EntitySet="CARS" />
+            <End Role="Rentals" EntitySet="Rentals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rentals__License__276EDEB3" Association="Self.FK__Rentals__License__276EDEB3">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Rentals" EntitySet="Rentals" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Database1ModelStoreContainer" CdmEntityContainer="Database1Entities">
+          <EntitySetMapping Name="CARS">
+            <EntityTypeMapping TypeName="Database1Model.CAR">
+              <MappingFragment StoreEntitySet="CARS">
+                <ScalarProperty Name="VIN" ColumnName="VIN" />
+                <ScalarProperty Name="Make" ColumnName="Make" />
+                <ScalarProperty Name="model" ColumnName="model" />
+                <ScalarProperty Name="yr" ColumnName="yr" />
+                <ScalarProperty Name="car_type" ColumnName="car_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="Database1Model.Customer">
+              <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="license_num" ColumnName="license_num" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="Owner_addr" ColumnName="Owner_addr" />
+                <ScalarProperty Name="car_type" ColumnName="car_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rentals">
+            <EntityTypeMapping TypeName="Database1Model.Rental">
+              <MappingFragment StoreEntitySet="Rentals">
+                <ScalarProperty Name="VIN" ColumnName="VIN" />
+                <ScalarProperty Name="License_num" ColumnName="License_num" />
+                <ScalarProperty Name="day_of_rental" ColumnName="day_of_rental" />
+                <ScalarProperty Name="rented_days" ColumnName="rented_days" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

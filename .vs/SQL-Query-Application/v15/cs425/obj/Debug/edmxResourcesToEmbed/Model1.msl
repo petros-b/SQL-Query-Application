@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Database1ModelStoreContainer" CdmEntityContainer="Database1Entities">
+    <EntitySetMapping Name="CARS">
+      <EntityTypeMapping TypeName="Database1Model.CAR">
+        <MappingFragment StoreEntitySet="CARS">
+          <ScalarProperty Name="VIN" ColumnName="VIN" />
+          <ScalarProperty Name="Make" ColumnName="Make" />
+          <ScalarProperty Name="model" ColumnName="model" />
+          <ScalarProperty Name="yr" ColumnName="yr" />
+          <ScalarProperty Name="car_type" ColumnName="car_type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Customers">
+      <EntityTypeMapping TypeName="Database1Model.Customer">
+        <MappingFragment StoreEntitySet="Customers">
+          <ScalarProperty Name="license_num" ColumnName="license_num" />
+          <ScalarProperty Name="first_name" ColumnName="first_name" />
+          <ScalarProperty Name="last_name" ColumnName="last_name" />
+          <ScalarProperty Name="Owner_addr" ColumnName="Owner_addr" />
+          <ScalarProperty Name="car_type" ColumnName="car_type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Rentals">
+      <EntityTypeMapping TypeName="Database1Model.Rental">
+        <MappingFragment StoreEntitySet="Rentals">
+          <ScalarProperty Name="VIN" ColumnName="VIN" />
+          <ScalarProperty Name="License_num" ColumnName="License_num" />
+          <ScalarProperty Name="day_of_rental" ColumnName="day_of_rental" />
+          <ScalarProperty Name="rented_days" ColumnName="rented_days" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

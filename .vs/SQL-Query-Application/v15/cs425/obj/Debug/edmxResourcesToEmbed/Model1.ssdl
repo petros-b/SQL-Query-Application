@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Database1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CARS">
+    <Key>
+      <PropertyRef Name="VIN" />
+    </Key>
+    <Property Name="VIN" Type="bigint" Nullable="false" />
+    <Property Name="Make" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="model" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="yr" Type="int" Nullable="false" />
+    <Property Name="car_type" Type="varchar" MaxLength="30" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Customers">
+    <Key>
+      <PropertyRef Name="license_num" />
+    </Key>
+    <Property Name="license_num" Type="bigint" Nullable="false" />
+    <Property Name="first_name" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="last_name" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="Owner_addr" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="car_type" Type="varchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\USERS\PETROS\DOCUMENTS\VISUAL STUDIO 2017\PROJECTS\CS425\CS425\DATABASE1.MDF.dbo.Rentals' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Rentals">
+    <Key>
+      <PropertyRef Name="VIN" />
+      <PropertyRef Name="License_num" />
+      <PropertyRef Name="day_of_rental" />
+      <PropertyRef Name="rented_days" />
+    </Key>
+    <Property Name="VIN" Type="bigint" Nullable="false" />
+    <Property Name="License_num" Type="bigint" Nullable="false" />
+    <Property Name="day_of_rental" Type="date" Nullable="false" />
+    <Property Name="rented_days" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Rentals__License__276EDEB3">
+    <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+    <End Role="Rentals" Type="Self.Rentals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customers">
+        <PropertyRef Name="license_num" />
+      </Principal>
+      <Dependent Role="Rentals">
+        <PropertyRef Name="License_num" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Rentals__VIN__267ABA7A">
+    <End Role="CARS" Type="Self.CARS" Multiplicity="1" />
+    <End Role="Rentals" Type="Self.Rentals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CARS">
+        <PropertyRef Name="VIN" />
+      </Principal>
+      <Dependent Role="Rentals">
+        <PropertyRef Name="VIN" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Database1ModelStoreContainer">
+    <EntitySet Name="CARS" EntityType="Self.CARS" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Rentals" EntityType="Self.Rentals" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Rentals].[VIN] AS [VIN], 
+    [Rentals].[License_num] AS [License_num], 
+    [Rentals].[day_of_rental] AS [day_of_rental], 
+    [Rentals].[rented_days] AS [rented_days]
+    FROM [dbo].[Rentals] AS [Rentals]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK__Rentals__License__276EDEB3" Association="Self.FK__Rentals__License__276EDEB3">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="Rentals" EntitySet="Rentals" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Rentals__VIN__267ABA7A" Association="Self.FK__Rentals__VIN__267ABA7A">
+      <End Role="CARS" EntitySet="CARS" />
+      <End Role="Rentals" EntitySet="Rentals" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
